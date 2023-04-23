@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from schemas.news import NewsShow
+from schemas.stocks import StocksShow
 
 
 class CompanyShow(BaseModel):
@@ -7,6 +8,7 @@ class CompanyShow(BaseModel):
     symbol: str
     sector: str
     news: list[NewsShow] = []
+    stocks: list[StocksShow] = []
 
     class Config:
         orm_mode = True

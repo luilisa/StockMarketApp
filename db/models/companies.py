@@ -10,3 +10,4 @@ class Companies(Base):
     symbol = Column(String, nullable=False, unique=True, index=True)
     sector = Column(String, nullable=False)
     news = relationship("News", back_populates="companies")
+    stocks = relationship("Stocks", back_populates="companies")
