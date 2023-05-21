@@ -11,7 +11,7 @@ class StockQuotesCreate(BaseModel):
     low_price: float
     close_price: float
     volume: int
-    stock_id: int
+    stock_symbol: str
 
     class Config:
         orm_mode = True
@@ -24,7 +24,7 @@ class StockQuotesShow(BaseModel):
     low_price: float
     close_price: float
     volume: int
-    stock_id: int
+    stock_symbol: str
 
     class Config:
         orm_mode = True

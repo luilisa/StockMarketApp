@@ -6,8 +6,7 @@ from schemas.companies import CompanyCreate
 
 def create_new_company(db: Session, company: CompanyCreate):
     company = Companies(company_name=company.company_name,
-                        symbol=company.symbol,
-                        sector=company.sector)
+                        symbol=company.symbol)
     db.add(company)
     db.commit()
     db.refresh(company)

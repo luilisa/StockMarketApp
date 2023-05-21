@@ -7,7 +7,7 @@ from schemas.stocks_quotes import StockQuotesShow
 
 
 class StocksCreate(BaseModel):
-    figi: str
+    company_name: str
     stock_price: float
     company_symbol: str
 
@@ -16,7 +16,8 @@ class StocksCreate(BaseModel):
 
 
 class StocksShow(BaseModel):
-    figi: str
+    company_symbol: str
+    company_name: str
     stock_price: float
     stock_quotes: list[StockQuotesShow] = []
 

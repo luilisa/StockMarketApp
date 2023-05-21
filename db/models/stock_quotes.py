@@ -12,6 +12,6 @@ class StockQuotes(Base):
     low_price = Column(Float, nullable=False)
     close_price = Column(Float, nullable=False)
     volume = Column(Integer, nullable=False)
-    stock_id = Column(Integer, ForeignKey("stocks.id"), nullable=False)
+    stock_symbol = Column(String, ForeignKey("stocks.company_symbol"), nullable=False)
 
     stocks = relationship("Stocks", back_populates='stock_quotes')

@@ -24,7 +24,7 @@ def read_company(id: int, db: Session = Depends(get_db)):
     return company
 
 
-@router.get("/all", response_model=List[CompanyShow])
+@router.get("", response_model=List[CompanyShow])
 def read_companies(db: Session = Depends(get_db)):
     companies = list_companies(db=db)
     return companies

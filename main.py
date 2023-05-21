@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
 
 from apis.base import api_router
 # from apis.base import api_router
@@ -26,6 +27,17 @@ def create_tables():  # new
 
 def start_application():
     app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
+    origins = [
+        "*"
+    ]
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
     include_router(app)
     # configure_static(app)
     create_tables()  # new
