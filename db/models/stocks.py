@@ -14,3 +14,4 @@ class Stocks(Base):
 
     # companies = relationship("Companies", back_populates='stocks')
     stock_quotes = relationship("StockQuotes", back_populates='stocks')
+    portfolios = relationship("Portfolios",  secondary="stocksinportfolio", back_populates="stocks")

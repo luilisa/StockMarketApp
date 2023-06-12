@@ -10,4 +10,6 @@ class Users(Base):
     email = Column(String, nullable=False, unique=True, index=True)
     hashed_password = Column(String, nullable=False)
 
+    portfolios = relationship("Portfolios", back_populates='users')
+
 

@@ -12,6 +12,8 @@ router = APIRouter()
 @router.post("/create-user")
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     user = create_new_user(user=user, db=db)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=user)
     return user
 
 

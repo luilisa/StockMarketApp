@@ -16,11 +16,11 @@ class StocksCreate(BaseModel):
 
 
 class StocksShow(BaseModel):
+    id: int
     company_symbol: str
     company_name: str
     stock_price: float
-    stock_quotes: list[StockQuotesShow] = []
+
 
     class Config:
         orm_mode = True
-

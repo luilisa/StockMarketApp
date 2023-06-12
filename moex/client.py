@@ -2,7 +2,7 @@ from datetime import datetime
 
 import requests
 import base64
-
+from datetime import date as date_1
 from sqlalchemy import null
 
 from db.models.companies import Companies
@@ -17,15 +17,19 @@ from session import get_db, SessionLocal
 
 # Specify the API endpoint URL
 url = 'http://iss.moex.com/iss/history/engines/{engine}/markets/{market}/boards/{board}/securities.json'
+history_by_ticker = 'http://iss.moex.com/iss/history/engines/stock/markets/shares/boards/tqbr/securities/{security}.json?limit={limit}&till={date_till}&sort_order={sort_order}'
+news_url = 'https://iss.moex.com/iss/sitenews/{id}.json'
 
 # Specify the engine, market, board, and date for which you want to retrieve history securities
 engine = 'stock'
 market = 'shares'
 board = 'tqbr'
-date = '2023-05-17'
+date = '2023-06-09'
 
 # Construct the complete URL with the parameters
 complete_url = url.format(engine=engine, market=market, board=board)
+today = date_1.today()
+
 
 # Set up authentication with MOEX Passport credentials
 username = 'your_username'
@@ -100,5 +104,43 @@ def populate_database(data):
     print("Data inserted successfully")
 
 
-print(populate_database(match_metadata_and_data(data['history']['metadata'], data['history']['data'])))
-# print(match_metadata_and_data(data['history']['metadata'], data['history']['data']))
+def get_stock_history_by_ticker(ticker):
+    history_url = history_by_ticker.format(security=ticker, date_till=today,
+                             limit=50, sort_order="desc")
+    response = requests.get(history_url)
+    # print(complete_url)
+    # print(params)
+    # print(datetime.utcnow())
+    print(history_url)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Process the response data (assuming it's in JSON format)
+        data = response.json()
+        # Process the data as needed
+    else:
+        # Request was not successful
+        print('Error:', response.status_code)
+    return match_metadata_and_data(data['history']['metadata'], data['history']['data'])
+
+
+def get_news():
+    id = ""
+    response = requests.get(news_url.format(id=id))
+
+    if response.status_code == 200:
+        data = response.json()
+    else:
+        print('Error:', response.status_code)
+    return match_metadata_and_data(data['sitenews']['metadata'], data['sitenews']['data'])
+
+def get_news_by_id(id):
+    response = requests.get(news_url.format(id=id))
+
+    if response.status_code == 200:
+        data = response.json()
+    else:
+        print('Error:', response.status_code)
+    return match_metadata_and_data(data['content']['metadata'], data['content']['data'])
+
+print(get_news_by_id(56449))

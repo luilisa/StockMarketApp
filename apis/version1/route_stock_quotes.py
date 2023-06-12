@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic.typing import List
 from sqlalchemy.orm import Session
 
-from db.repository.stock_quotes import create_stock_quotes, list_stock_quotes, retreive_stock_quotes
+from db.repository.stock_quotes import create_stock_quotes, list_stock_quotes, retreive_stock_quotes, create_list_stock_quotes
 from schemas.stocks_quotes import StockQuotesCreate, StockQuotesShow
 from session import get_db
-
+from moex.client import get_stock_history_by_ticker
 router = APIRouter()
 
 
@@ -21,8 +21,9 @@ def read_stocks(db: Session = Depends(get_db)):
     return stocks_quotes
 
 
-@router.get("/{company_symbol}", response_model=StockQuotesShow)
+@router.get("/{company_symbol}", response_model=List[StockQuotesShow])
 def read_stock_quotes(company_symbol: str, db: Session = Depends(get_db)):
+    create_list_stock_quotes(stock_quotes=get_stock_history_by_ticker(company_symbol), db=db)
     stocks_quotes = retreive_stock_quotes(company_symbol=company_symbol, db=db)
     if not stocks_quotes:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,

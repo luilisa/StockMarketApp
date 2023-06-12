@@ -1,4 +1,4 @@
-fastapi
+fastapi~=0.95.1
 uvicorn
 
 #for template
@@ -8,10 +8,14 @@ jinja2
 aiofiles
 
 #for database   #new
-sqlalchemy
+sqlalchemy~=2.0.9
 psycopg2
 
 #for loading environment variables  #new
-python-dotenv
+python-dotenv~=1.0.0
 
-pydantic[email]
+pandas~=2.0.1
+pydantic[email]~=1.10.7
+templates~=0.0.5
+requests~=2.30.0
+matplotlib~=3.7.1

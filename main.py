@@ -2,10 +2,12 @@ from fastapi import FastAPI, Depends
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.testing import db
 
 from apis.base import api_router
 # from apis.base import api_router
 from config import settings
+from db.models.portfolios import Portfolios
 from db.repository.users import create_new_user
 from schemas.users import UserCreate
 # from apis.general_pages.route_homepage import general_pages_router
@@ -20,12 +22,13 @@ def include_router(app):
 # def configure_static(app):
 #     app.mount("/static", StaticFiles(directory="static"), name="static")
 
-
 def create_tables():  # new
     Base.metadata.create_all(bind=engine)
 
 
 def start_application():
+    create_tables()  # new
+    print(111111111111111111)
     app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
     origins = [
         "*"
@@ -40,7 +43,7 @@ def start_application():
     )
     include_router(app)
     # configure_static(app)
-    create_tables()  # new
+
     return app
 
 

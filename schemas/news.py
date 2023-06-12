@@ -5,18 +5,19 @@ from pydantic.typing import Optional
 
 
 class NewsCreate(BaseModel):
+    id: int
+    link: str
     title: str
-    content: str
-    pub_date: Optional[date] = datetime.now().date()
-    company_id: int
+    pub_date: Optional[date]
 
     class Config:
         orm_mode = True
 
 
 class NewsShow(BaseModel):
+    id: int
+    link: str
     title: str
-    content: str
     pub_date: date_type
 
     class Config:

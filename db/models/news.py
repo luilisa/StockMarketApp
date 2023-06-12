@@ -8,9 +8,7 @@ from db.base_class import Base
 
 class News(Base):
     id = Column(Integer, primary_key=True, index=True)
-    company_id = Column(Integer, ForeignKey("companies.id"))
     title = Column(String, nullable=False)
-    content = Column(String, nullable=False)
+    link = Column(String)
     pub_date = Column(Date)
 
-    companies = relationship("Companies", back_populates='news')
